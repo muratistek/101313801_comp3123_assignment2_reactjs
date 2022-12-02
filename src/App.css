@@ -32,7 +32,18 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.container h1 {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.align-btn-y {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
