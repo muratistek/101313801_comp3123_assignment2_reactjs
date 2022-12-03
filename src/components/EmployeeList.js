@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Table, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 export default function EmployeeList() {
   const [employeeData, setEmployeeData] = useState([])
@@ -17,6 +18,20 @@ export default function EmployeeList() {
       })
   }
 
+  const deleteEmployee = (id) => {
+    if (window.confirm("Do you want to delete the employee?")) {
+      axios.delete(`https://101313801-comp-3123-assignment1.vercel.app/api/emp/employees?eid=${id}`)
+        .then(res => {
+          console.log("Removed Successfully");
+          getEmployeeData()
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+  }
+
+
   useEffect(() => {
     getEmployeeData();
   }, [])
@@ -24,7 +39,7 @@ export default function EmployeeList() {
   return (
     <div className='container'>
       <h1>Employee List</h1>
-      <Button className='align-btn-y' variant="primary">Add Employee</Button>{' '}
+      <Link to="/addEmployee" className='btn align-btn-y btn-primary'>Add New Employee</Link>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -42,9 +57,9 @@ export default function EmployeeList() {
                 <td>{employee.last_name}</td>
                 <td>{employee.email}</td>
                 <td>
-                  <Button variant="warning">Update</Button>{' '}
-                  <Button variant="danger">Delete</Button>{' '}
-                  <Button variant="primary">View</Button>{' '}
+                  <Button href={`/addEmployee/${employee._id}`} variant="warning">Update</Button>{' '}
+                  <Button onClick={() => deleteEmployee(employee._id)} variant="danger">Delete</Button>{' '}
+                  <Button href={`/viewEmployee/${employee._id}`} variant="primary">View</Button>{' '}
                 </td>
               </tr>
             ))
